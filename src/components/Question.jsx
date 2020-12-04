@@ -1,13 +1,13 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-function Question(){
+function Question(props){
     return(
         <div>
-            <h2>Título de la pregunta</h2>
-            <button>Opcion 1</button>
-            <button>Opcion 2</button>
-            <button>Opcion 3</button>
-            <button>Opcion 4</button>
+            <p>{props.question}</p>
+            {props.answers.map(answer => (
+                <button key={uuidv4()}>{answer}</button>
+            ))}
         </div>
     )
 }
