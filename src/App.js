@@ -2,15 +2,18 @@ import React, {useState, useEffect} from 'react';
 import fetchQuestions from './services/fetchQuestions';
 import formatQuestions from './utils/formatQuestions';
 import Question from './components/Question';
+import Results from './components/Results';
 
 function App(){
 
   const [isLoading, setIsLoading] = useState(true);
+  const [showingResults, setShowingResults] = useState(false);
+  const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState([]);
-  const [userAnswers, setUserAnswers] = useState([])
+  const [userAnswers, setUserAnswers] = useState([]);
 
   useEffect(()=>{
-   
+
     async function loadData(){
       const response = await fetchQuestions();
       const formatedQuestion = formatQuestions(response.data.results);
@@ -22,13 +25,10 @@ function App(){
   }, [])
 
   const saveUserAnswer = (userNewAnswer) => {
-
     const answerAlreadySaved = userAnswers.some(userAnswer => userAnswer.questionID === userNewAnswer.questionID);
-
     if(answerAlreadySaved){
       return null
     }
-
     setUserAnswers([...userAnswers, userNewAnswer])
   }
 
@@ -37,6 +37,28 @@ function App(){
     setUserAnswers(updatedAnswers);
   }
 
+  const checkResults = () => {
+    let score = 0;
+    userAnswers.forEach(answer =>{
+      if(answer.correctlyAnswered === true){
+        score++
+      }
+    })
+    setScore(score);
+    setShowingResults(true);
+  }
+
+   const resetGame = async () => {
+    setIsLoading(true)
+    setShowingResults(false);
+    setUserAnswers([]);
+    setScore(0);
+
+    const response = await fetchQuestions();
+    const formatedQuestion = formatQuestions(response.data.results);
+    setQuestions(formatedQuestion); 
+    setIsLoading(false);
+  }
 
   return (
     <div>
@@ -44,18 +66,26 @@ function App(){
         <div>
           <h1>QuizBee</h1>
         </div>
-        {isLoading ? <h2>Loading...</h2> : questions.map(question => (
-          <Question 
-            key={question.id} 
-            id={question.id} 
-            question={question.question} 
-            answers={question.answers} 
-            correct_answer={question.correct_answer}
-            saveUserAnswer={saveUserAnswer}
-            removeUserAnswer={removeUserAnswer}/>
-        ))}
         <div>
-          <button>Check results</button>
+          {isLoading ? 
+          <h2>Loading...</h2> :
+          <div> 
+            {showingResults ?
+            <Results score={score} resetGame={resetGame}/> :
+            questions.map(question => (
+              <Question 
+                key={question.id} 
+                id={question.id} 
+                question={question.question} 
+                answers={question.answers} 
+                correct_answer={question.correct_answer}
+                saveUserAnswer={saveUserAnswer}
+                removeUserAnswer={removeUserAnswer}/>
+            ))}
+          </div>}
+        </div>
+        <div>
+          <button onClick={checkResults}>Check results</button>
         </div>
       </main>
     </div>

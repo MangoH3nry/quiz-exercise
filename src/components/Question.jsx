@@ -32,7 +32,7 @@ function Question(props){
 
 
     return(
-        <div>
+        <React.Fragment>
             <p>{props.question}</p>
             <div>
                 {displayedAnswers.map((answer, index) => (
@@ -40,7 +40,7 @@ function Question(props){
                 ))}
             </div>
             <button parent_id={props.id} onClick={handleReset}>Reset</button>
-        </div>
+        </React.Fragment>
     )
 }
 
