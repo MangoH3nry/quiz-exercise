@@ -6,12 +6,19 @@ function Question(props){
     const [displayedAnswers, setDisplayedAnswers] = useState(props.answers) //(!) Passing props to the state?
 
     const handleUserSelection = (e) => {
+        //After this, we only gonna render the button with the user's choice.
         const {index, parent_id} = e.target.attributes; 
         setDisplayedAnswers(previosAnswers => [previosAnswers[index.value]]);
         
+        //We create an answer object that's gonna subsequently saved in the state.
         const answerObject = {
-            questionID : parent_id.value,
-            answer: e.target.value
+            questionID : parent_id.value
+        }
+
+        if(props.correct_answer === e.target.value){
+            answerObject.correctlyAnswered = true
+        }else{
+            answerObject.correctlyAnswered = false
         }
 
         props.saveUserAnswer(answerObject); //We also save the user's answer in the state.

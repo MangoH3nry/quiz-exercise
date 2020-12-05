@@ -21,8 +21,15 @@ function App(){
     loadData();
   }, [])
 
-  const saveUserAnswer = (userAnswer) => {
-    setUserAnswers([...userAnswers, userAnswer])
+  const saveUserAnswer = (userNewAnswer) => {
+
+    const answerAlreadySaved = userAnswers.some(userAnswer => userAnswer.questionID === userNewAnswer.questionID);
+
+    if(answerAlreadySaved){
+      return null
+    }
+
+    setUserAnswers([...userAnswers, userNewAnswer])
   }
 
   const removeUserAnswer = (id) => {
@@ -43,6 +50,7 @@ function App(){
             id={question.id} 
             question={question.question} 
             answers={question.answers} 
+            correct_answer={question.correct_answer}
             saveUserAnswer={saveUserAnswer}
             removeUserAnswer={removeUserAnswer}/>
         ))}
@@ -54,8 +62,5 @@ function App(){
   );
 
 }
-
-
-
 
 export default App;
