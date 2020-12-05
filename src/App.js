@@ -62,14 +62,14 @@ function App(){
 
   return (
     <div>
-      <main role="main">
-        <div>
+      <main className="container p-0 mt-5 border rounded shadow-sm" role="main">
+        <div className="py-1 px-2 bg-dark text-white">
           <h1>QuizBee</h1>
         </div>
         <div>
           {isLoading ? 
           <h2>Loading...</h2> :
-          <div> 
+          <div className="pt-2 px-3"> 
             {showingResults ?
             <Results score={score} resetGame={resetGame}/> :
             questions.map(question => (
@@ -84,8 +84,8 @@ function App(){
             ))}
           </div>}
         </div>
-        <div>
-          <button onClick={checkResults}>Check results</button>
+        <div className="text-center">
+          <button className="btn btn-success mb-3" onClick={checkResults}>Check results</button>
         </div>
       </main>
     </div>

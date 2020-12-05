@@ -32,15 +32,17 @@ function Question(props){
 
 
     return(
-        <React.Fragment>
-            <p>{props.question}</p>
-            <div>
-                {displayedAnswers.map((answer, index) => (
-                    <button key={uuidv4()} index={index} parent_id={props.id} value={answer} onClick={handleUserSelection}>{answer}</button>
-                ))}
+        <div className="border-bottom mb-3">
+            <h2 className="h5">{props.question}</h2>
+            <div className="d-flex justify-content-between mb-3">
+                <div>
+                    {displayedAnswers.map((answer, index) => (
+                        <button className="mr-3 btn btn-primary" key={uuidv4()} index={index} parent_id={props.id} value={answer} onClick={handleUserSelection}>{answer}</button>
+                    ))}
+                </div>
+                <button className="btn btn-warning" parent_id={props.id} onClick={handleReset}>Reset</button>
             </div>
-            <button parent_id={props.id} onClick={handleReset}>Reset</button>
-        </React.Fragment>
+        </div>
     )
 }
 
