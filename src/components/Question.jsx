@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import generateAnswerObj from '../utils/generateAnswerObj';
 
 function Question(props){
     
@@ -11,15 +12,7 @@ function Question(props){
         setDisplayedAnswers(previosAnswers => [previosAnswers[index.value]]);
         
         //We create an answer object that's gonna subsequently saved in the state.
-        const answerObject = {
-            questionID : parent_id.value
-        }
-
-        if(props.correct_answer === e.target.value){
-            answerObject.correctlyAnswered = true
-        }else{
-            answerObject.correctlyAnswered = false
-        }
+        const answerObject = generateAnswerObj(parent_id.value, props.correct_answer, e.target.value);
 
         props.saveUserAnswer(answerObject); //We also save the user's answer in the state.
     }
@@ -34,7 +27,7 @@ function Question(props){
     return(
         <div className="border-bottom mb-3">
             <h2 className="h5">{props.question}</h2>
-            <div className="d-flex justify-content-between mb-3">
+            <div className="d-flex justify-content-between align-content-between mb-3">
                 <div>
                     {displayedAnswers.map((answer, index) => (
                         <button className="mr-3 btn btn-primary" key={uuidv4()} index={index} parent_id={props.id} value={answer} onClick={handleUserSelection}>{answer}</button>

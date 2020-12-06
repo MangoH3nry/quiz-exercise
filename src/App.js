@@ -60,36 +60,40 @@ function App(){
     setIsLoading(false);
   }
 
-  return (
+  return(
     <div>
-      <main className="container p-0 mt-5 border rounded shadow-sm" role="main">
+      <main className="container p-0 mt-5 border shadow-sm" role="main">
         <div className="py-1 px-2 bg-dark text-white">
-          <h1>QuizBee</h1>
+          <h1>Quiz App</h1>
         </div>
         <div>
           {isLoading ? 
-          <h2>Loading...</h2> :
-          <div className="pt-2 px-3"> 
-            {showingResults ?
-            <Results score={score} resetGame={resetGame}/> :
-            questions.map(question => (
-              <Question 
-                key={question.id} 
-                id={question.id} 
-                question={question.question} 
-                answers={question.answers} 
-                correct_answer={question.correct_answer}
-                saveUserAnswer={saveUserAnswer}
-                removeUserAnswer={removeUserAnswer}/>
-            ))}
-          </div>}
-        </div>
-        <div className="text-center">
-          <button className="btn btn-success mb-3" onClick={checkResults}>Check results</button>
+            <h2>Loading...</h2> :
+            <div className="pt-2 px-3">
+              {showingResults ?
+                <Results score={score} resetGame={resetGame}/> :
+                <div>
+                  {questions.map(question => (
+                    <Question
+                      key={question.id}
+                      id={question.id}
+                      question={question.question}
+                      answers={question.answers}
+                      correct_answer={question.correct_answer}
+                      saveUserAnswer={saveUserAnswer}
+                      removeUserAnswer={removeUserAnswer}/>
+                  ))}
+                  <div className="text-center">
+                    <button className="btn btn-success mb-3" onClick={checkResults}>Check Results</button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
       </main>
     </div>
-  );
+  )
 
 }
 
